@@ -1,28 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define str string
+#define ll long long
 #define fl float
 #define db double
-#define ll long long
 
-class QuanLy
-{
+class Student{
     public:
         str name;
         str id;
         db toan, ly, hoa;
-        fl tb;
-
-    QuanLy(){
-        toan = 0;
-        ly = 0;
-        hoa = 0;
-    }
-
+        db tbc;
+    
     void nhap(){
-        cout << "Nhap ten sinh vien: ";
+        cout << "Nhap ho va ten: ";
         getline(cin, name);
-        cout << "Nhap MSSV: ";
+        cout << "Nhap ma so sinh vien: ";
         cin >> id;
         cout << "Nhap diem toan: ";
         cin >> toan;
@@ -32,126 +25,122 @@ class QuanLy
         cin >> hoa;
     }
 
-    db tinh(){
-        tb = (toan + ly + hoa) / 3;
-        return tb;
-    }
 
+    db tinh(){
+        tbc = (toan + ly + hoa) / 3;
+        return tbc;
+    }
+    
     str xep_loai(){
         fl a = tinh();
-        str hocluc;
-        if(a >= 9){
-            hocluc = "Xuat sac";
-        }else if(a >= 8 && a < 9){
-            hocluc = "Gioi";
-        }else if(a >= 7 && a < 8){
-            hocluc = "Kha";
-        }else if(a >= 6 && a < 7){
-            hocluc = "Trung binh kha";
-        }else if(a >= 5 && a < 6){
-            hocluc = "Trung binh";
+        str hoc_luc;
+        if(a >= 8){
+            hoc_luc = "Gioi";
+        }else if(a < 8 && a >= 7){
+            hoc_luc = "Kha";
+        }else if(a < 7 && a >= 6){
+            hoc_luc = "Trung binh";
         }else{
-            hocluc = "Yeu";
+            hoc_luc = "Yeu";
         }
-        return hocluc;
+        return hoc_luc;
     }
-
-    void xuat(){
-        cout << name << " " << id << " " << " " << tb << " " << xep_loai() << endl;
-    }
+    
+    void in(){
+        cout << name << " " << id << " " << tbc << " " << xep_loai() << endl;
+    }    
+    
 };
 
-
-
 int main(){
-    vector<QuanLy> dssv;
-    QuanLy sv;
+    vector<Student> dssv;
+    Student sv;
     int choice;
     do{
         cout << "---------- MENU ----------\n";
-        cout << "1. Hien thi xep loai sinh vien\n";
-        cout << "2. Hien thi diem TBC cao nhat\n";
-        cout << "3. Hien thi sinh vien yeu\n";
-        cout << "4. Tim sinh vien theo ten\n";
-        cout << "5. Tim sinh vien theo ma\n";
-        cout << "6. Xoa sinh vien\n";
-        cout << "7. Hien thi danh sach sinh vien\n";
+        cout << "1. Hien thi xep loai\n";
+        cout << "2. Hien thi sinh vien co DTB cao nhat\n";
+        cout << "3. Hien thi sinh vien co DTB thap nhat\n";
+        cout << "4. Hien thi sinh vien xep loai yeu\n";
+        cout << "5. Hien thi sinh vien xep loai gioi\n";
+        cout << "6. Tim sinh vien theo ten\n";
+        cout << "7. Tim sinh vien theo ma so sinh vien\n";
+        cout << "8. In danh sach sinh vien\n";
         cout << "0. Exit\n";
         cout << "Moi ban nhap lua chon: ";
         cin >> choice;
         if(choice == 1){
             cin.ignore();
             sv.nhap();
+            sv.tinh();
             sv.xep_loai();
-            sv.xuat();
+            sv.in();
             dssv.push_back(sv);
         }else if(choice == 2){
-            QuanLy tmp;
-                for(auto i:dssv){
-                    if(i.tb > tmp.tb){
-                        tmp = i;
-                    }
+            Student tmp;
+            for(auto i:dssv){
+                if(i.tbc > tmp.tbc){
+                    tmp = i;
                 }
-                tmp.xuat();
+            }
+            tmp.in();
         }else if(choice == 3){
-                bool tim = false;
-                for(auto i:dssv){
-                    if(i.xep_loai() == "Yeu"){
-                        tim = true;
-                        i.xuat();
-                    }
+            Student tam;
+            for(auto i:dssv){
+                if(i.tbc < tam.tbc){
+                    tam = i;
                 }
-                if(tim == false){
-                    cout << "Khong co sinh vien nao dat loai yeu\n";
-                }
+            }
+            tam.in();
         }else if(choice == 4){
+            for(auto i:dssv){
+                if(i.xep_loai() == "Yeu"){
+                    i.in();
+                }
+            }
+        }else if(choice == 5){
+            for(auto i:dssv){
+                if(i.xep_loai() == "Gioi"){
+                    i.in();
+                }
+            }
+        }else if(choice == 6){
             cin.ignore();
-            str s;
-            cout << "Nhap ten sinh vien can tim: ";
-            getline(cin, s);
             bool tim = false;
+            str s;
+            cout << "Nhap ten can tim: ";
+            getline(cin, s);
             for(auto i:dssv){
                 if(i.name == s){
                     tim = true;
-                    i.xuat();
+                    i.in();
                 }
             }
             if(tim == false){
                 cout << "Khong ton tai!!!";
-            }
-        }else if(choice == 5){
-            str s1;
-            cout << "Nhap ma sinh vien can tim: ";
-            cin >> s1;
-            bool tim = false;
-            for(auto i:dssv){
-                if(i.id == s1){
-                    tim = true;
-                    i.xuat();
-                }
-            }
-            if(tim == false){
-                cout << "Khong ton tai!!!";
-            }
-        }else if(choice == 6){
-            str s;
-            cout << "Nhap ma sinh vien can xoa: ";
-            cin >> s;
-            for(auto i = dssv.begin(); i != dssv.end(); i++){
-                if(i->id == s){
-                    dssv.erase(i);
-                    cout << "Da xoa sinh vien";
-                    break;
-                }
             }
         }else if(choice == 7){
-            cout << "------- Danh sach sinh vien -------\n";
+            cin.ignore();
+            bool tim = false;
+            str s;
+            cout << "Nhap ma so sinh vien can tim: ";
+            cin >> s;
             for(auto i:dssv){
-                i.xuat();
+                if(i.id == s){
+                    tim = true;
+                    i.in();
+                }
+            }
+            if(tim == false){
+                cout << "Khong ton tai!!!";
+            }
+        }else if(choice == 8){
+            for(auto i:dssv){
+                i.in();
                 cout << endl;
             }
         }else{
-            cout << "Tam biet!\n";
+            cout << "Tam biet!!\n";
         }
     }while(choice != 0);
 }

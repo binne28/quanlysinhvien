@@ -1,146 +1,191 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define str string
-#define ll long long
-#define fl float
 #define db double
+#define fl float
+#define ll long long
 
-class Student{
+class Book{
+    private:
+        str name, id, tac_gia, the_loai, namxuatban;
+        ll soluong;
     public:
-        str name;
-        str id;
-        db toan, ly, hoa;
-        db tbc;
-    
-    void nhap(){
-        cout << "Nhap ho va ten: ";
-        getline(cin, name);
-        cout << "Nhap ma so sinh vien: ";
-        cin >> id;
-        cout << "Nhap diem toan: ";
-        cin >> toan;
-        cout << "Nhap diem ly: ";
-        cin >> ly;
-        cout << "Nhap diem hoa: ";
-        cin >> hoa;
-    }
-
-
-    db tinh(){
-        tbc = (toan + ly + hoa) / 3;
-        return tbc;
-    }
-    
-    str xep_loai(){
-        fl a = tinh();
-        str hoc_luc;
-        if(a >= 8){
-            hoc_luc = "Gioi";
-        }else if(a < 8 && a >= 7){
-            hoc_luc = "Kha";
-        }else if(a < 7 && a >= 6){
-            hoc_luc = "Trung binh";
-        }else{
-            hoc_luc = "Yeu";
+    //set: thiet lap de truy xuat vao private
+    //get: lay du lieu tu set
+        void setname(){
+            this->name = name;
         }
-        return hoc_luc;
-    }
-    
-    void in(){
-        cout << name << " " << id << " " << tbc << " " << xep_loai() << endl;
-    }    
-    
+        str getname(){
+            return name;
+        }
+
+        void setid(){
+            this->id = id;
+        }
+
+        str getid(){
+            return id;
+        }
+
+        void settacgia(){
+            this->tac_gia = tac_gia;
+        }
+
+        str gettacgia(){
+            return the_loai;
+        }
+
+        void settheloai(){
+            this->the_loai = the_loai;
+        }
+
+        str gettheloai(){
+            return the_loai;
+        }
+        
+        void setsoluong(){
+            this->soluong = soluong;
+        }
+
+        ll getsoluong(){
+            return soluong;
+        }
+        
+        void setnamxuatban(){
+            this->namxuatban = namxuatban;
+        }
+        
+        str getnamxuatban(){
+            return namxuatban;
+        }
+
+        void input(){
+            cout << "Nhap ma sach: ";
+            cin >> this->id;
+            cin.ignore();
+            cout << "Nhap ten sach: ";
+            getline(cin, this->name);
+            cout << "Nhap tac gia cua sach: ";
+            getline(cin, this->tac_gia);
+            cout << "Nhap the loai: ";
+            getline(cin, this->the_loai);
+            cout << "Nhap nam xuat ban: ";
+            cin >> this->namxuatban;
+            cout << "Nhap so luong sach: ";
+            cin >> this->soluong;
+        }
+
+
+        void output(){
+            cout << "Ma sach: " << this->id << endl;
+            cout << "Ten sach: " << this-> name << endl;
+            cout << "Tac gia: " << this->tac_gia <<endl;
+            cout << "Nam xuat ban: " << this->namxuatban << endl;
+            cout << "So luong: " << this->soluong << endl;
+        }
+};
+
+
+class Library{
+    private:
+
+    public: 
 };
 
 int main(){
-    vector<Student> dssv;
-    Student sv;
+    vector <Book> sach;
+    Book b;
     int choice;
     do{
-        cout << "---------- MENU ----------\n";
-        cout << "1. Hien thi xep loai\n";
-        cout << "2. Hien thi sinh vien co DTB cao nhat\n";
-        cout << "3. Hien thi sinh vien co DTB thap nhat\n";
-        cout << "4. Hien thi sinh vien xep loai yeu\n";
-        cout << "5. Hien thi sinh vien xep loai gioi\n";
-        cout << "6. Tim sinh vien theo ten\n";
-        cout << "7. Tim sinh vien theo ma so sinh vien\n";
-        cout << "8. In danh sach sinh vien\n";
+        cout << "------------ MENU ------------\n";
+        cout << "1. Them sach vao thu vien\n";
+        cout << "2. Tim kiem sach trong thu vien\n";
+        cout << "3. Hien thi thong tin sach\n";
+        cout << "4. Xoa sach khoi thu vien bang ma sach\n";
+        cout << "5. Tim kiem thong tin sach bang ma sach\n";
+        cout << "6. Xoa sach khoi thu vien bang ten sach\n";
         cout << "0. Exit\n";
-        cout << "Moi ban nhap lua chon: ";
+        cout << "Nhap lua chon cua ban: ";
         cin >> choice;
+        system("cls");
         if(choice == 1){
-            cin.ignore();
-            sv.nhap();
-            sv.tinh();
-            sv.xep_loai();
-            sv.in();
-            dssv.push_back(sv);
+            b.input();
+            sach.push_back(b);
         }else if(choice == 2){
-            Student tmp;
-            for(auto i:dssv){
-                if(i.tbc > tmp.tbc){
-                    tmp = i;
+            cin.ignore();
+            bool tim = false;
+            str a;
+            cout << "Nhap ten sach ban muon tim kiem: ";
+            getline(cin, a);
+            for(auto i = sach.begin(); i != sach.end(); i++){
+                if(i->getname() == a){
+                    tim = true;
+                    i->output();
                 }
             }
-            tmp.in();
-        }else if(choice == 3){
-            Student tam;
-            for(auto i:dssv){
-                if(i.tbc < tam.tbc){
-                    tam = i;
+            if(tim == false){
+                cout << "Khong tim thay sach co ten nhu vay!!!\n";
+            }
+        }else if(choice == 3){ 
+            if(sach.empty()){
+                cout << "Khong co sach nao trong thu vien\n";
+            }else{
+                for(auto i:sach){
+                    i.output();
+                    cout << endl;
                 }
             }
-            tam.in();
         }else if(choice == 4){
-            for(auto i:dssv){
-                if(i.xep_loai() == "Yeu"){
-                    i.in();
-                }
-            }
-        }else if(choice == 5){
-            for(auto i:dssv){
-                if(i.xep_loai() == "Gioi"){
-                    i.in();
-                }
-            }
-        }else if(choice == 6){
-            cin.ignore();
+            str ma;
+            cout << "Nhap ma sach ban muon xoa: ";
+            cin >> ma;
             bool tim = false;
-            str s;
-            cout << "Nhap ten can tim: ";
-            getline(cin, s);
-            for(auto i:dssv){
-                if(i.name == s){
+            for(auto i = sach.begin(); i != sach.end(); i++){
+                if(i->getid() == ma){
                     tim = true;
-                    i.in();
+                    i= sach.erase(i);
+                    cout << "Da xoa khoi thu vien!!!\n";
+                    break;
                 }
             }
             if(tim == false){
-                cout << "Khong ton tai!!!";
+                cout << "Khong tim thay ma sach nao nhu vay!\n";
             }
-        }else if(choice == 7){
-            cin.ignore();
-            bool tim = false;
-            str s;
-            cout << "Nhap ma so sinh vien can tim: ";
-            cin >> s;
-            for(auto i:dssv){
-                if(i.id == s){
-                    tim = true;
-                    i.in();
+        }else if(choice == 5) //5. Tim kiem thong tin sach bang ma sach
+        {
+            bool check = false;
+            str id1;
+            cout << "Nhap ma sach ban muon tim kiem: ";
+            cin >> id1;
+            for(auto i = sach.begin(); i != sach.end(); i++){
+                if(i->getid() == id1){
+                    check = true;
+                    i->output();
                 }
             }
-            if(tim == false){
-                cout << "Khong ton tai!!!";
+            if(check == false){
+                cout << "Khong tim thay ma sach nao nhu vay!!!\n";
             }
-        }else if(choice == 8){
-            for(auto i:dssv){
-                i.in();
-                cout << endl;
+        }else if(choice == 6)// xoa sach theo ten
+        {
+            str name1;
+            cout << "Nhap ten sach ban muon xoa: ";
+            getline(cin, name1);
+            bool check = false;
+            for(auto i = sach.begin(); i != sach.end(); i++){
+                if(i->getname() == name1){
+                    check = true;
+                    i = sach.erase(i);
+                    cout << "Da xoa khoi thu vien!!!\n";
+                    break;
+                }
             }
-        }else{
-            cout << "Tam biet!!\n";
+            if(check == false){
+                cout << "Khong tim thay ten sach nao nhu vay ca!!\n";
+            }
+        }
+        else{
+            cout << "Xin chao va hen gap laii!!!!\n Tam biet!!!";
         }
     }while(choice != 0);
 }
